@@ -1,11 +1,10 @@
-# Define the DQN Agent
-from dqn import DQN
 import random
 import torch
 import torch.optim as optim
 import torch.nn.functional as F
-from ReplayMemory import ReplayMemory
 import numpy as np
+from ReplayMemory import ReplayMemory
+from dqn import DQN
 
 
 class Agent:
@@ -21,16 +20,19 @@ class Agent:
         self.memory = ReplayMemory(action_size, buffer_size=int(1e5), batch_size=64, seed=seed)
         self.t_step = 0
 
-    def step(self, state, action, reward, next_state, done, batch_size, gamma, update_every):
+    def step(self, state, action, reward, next_state, done, batch_size, gamma, update_every, device, tau):
         self.memory.add(state, action, reward, next_state, done)
         self.t_step = (self.t_step + 1) % update_every
         if self.t_step == 0:
             if len(self.memory) > batch_size:
-                experiences = self.memory.sample()
-                self.learn(experiences, gamma)
+                experiences = self.memory.sample(device=device)
+                self.learn(experiences, gamma, tau)
 
     def act(self, state, device, eps=0.):
-        state = torch.from_numpy(state).float().unsqueeze(0).to(device)
+        state = np.array(state, dtype=np.float32)  # Ensure state is float32
+        if state.ndim == 1:
+            state = np.expand_dims(state, axis=0)
+        state = torch.from_numpy(state).to(device)
         self.DQN_policy.eval()
         with torch.no_grad():
             action_values = self.DQN_policy(state)
