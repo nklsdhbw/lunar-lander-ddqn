@@ -32,7 +32,7 @@ def dqn(n_episodes=2000, max_t=1000, eps_start=1.0, eps_end=0.01, eps_decay=0.99
         print(f'\rEpisode {i_episode}\tAverage Score: {np.mean(scores_window):.2f}', end="")
         if i_episode % 100 == 0:
             print(f'\rEpisode {i_episode}\tAverage Score: {np.mean(scores_window):.2f}')
-        if np.mean(scores_window) >= 200.0:
+        if np.mean(scores_window) >= 250.0:
             print(f'\nEnvironment solved in {i_episode - 100} episodes!\tAverage Score: {np.mean(scores_window):.2f}')
             torch.save(agent.DQN_policy.state_dict(), 'checkpoint.pth')
             break
