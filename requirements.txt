@@ -1,1 +1,2 @@
 gymnasium[box2d]
+torchvision
