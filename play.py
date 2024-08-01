@@ -27,6 +27,6 @@ if __name__ == "__main__":
     
     agent = Agent(state_size, action_size, device=device, seed=0)
     
-    agent.DQN_policy.load_state_dict(torch.load('checkpoint.pth', map_location=device))
+    agent.DQN_policy.load_state_dict(torch.load('checkpoint.pth', map_location=device, weights_only=True))
     
     play(agent, env, device)
