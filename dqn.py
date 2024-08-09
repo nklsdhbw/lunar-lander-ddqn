@@ -1,15 +1,16 @@
 import torch
 import torch.nn as nn
+from torch import Tensor
 
 class DQN(nn.Module):
-    def __init__(self, state_size, action_size, seed):
+    def __init__(self, state_size: int, action_size: int, seed: int) -> None:
         super(DQN, self).__init__()
-        self.seed = torch.manual_seed(seed)
-        self.fc1 = nn.Linear(state_size, 128)  
-        self.fc2 = nn.Linear(128, 128)
-        self.fc3 = nn.Linear(128, action_size)
+        self.seed: torch.Generator = torch.manual_seed(seed)
+        self.fc1: nn.Linear = nn.Linear(state_size, 128)
+        self.fc2: nn.Linear = nn.Linear(128, 128)
+        self.fc3: nn.Linear = nn.Linear(128, action_size)
 
-    def forward(self, state):
-        x = torch.relu(self.fc1(state))
+    def forward(self, state: Tensor) -> Tensor:
+        x: Tensor = torch.relu(self.fc1(state))
         x = torch.relu(self.fc2(x))
         return self.fc3(x)
