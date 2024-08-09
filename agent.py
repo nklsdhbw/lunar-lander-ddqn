@@ -79,6 +79,6 @@ class Agent:
 
         self.soft_update(self.DQN_policy, self.DQN_target)
 
-    def soft_update(self, local_model: DQN, target_model: DQN) -> None:
-        for target_param, local_param in zip(target_model.parameters(), local_model.parameters()):
-            target_param.data.copy_(self.tau * local_param.data + (1.0 - self.tau) * target_param.data)
+    def soft_update(self, policy_model: DQN, target_model: DQN) -> None:
+        for target_param, policy_param in zip(target_model.parameters(), policy_model.parameters()):
+            target_param.data.copy_(self.tau * policy_param.data + (1.0 - self.tau) * target_param.data)
