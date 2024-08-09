@@ -13,7 +13,7 @@ action_size: int = env.action_space.n
 device: torch.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 agent: Agent = Agent(state_size, action_size, device=device, seed=0, gamma=0.99, tau=1e-3, batch_size=64, update_every=4)
 
-def dqn(
+def train(
     n_episodes: int = 2000, 
     max_t: int = 1000, 
     eps_start: float = 1.0, 
@@ -88,7 +88,7 @@ if __name__ == "__main__":
                 batch_size=params["batch_size"],
                 update_every=params["update_every"],
             )
-            scores, params_used, episodes_taken = dqn(eps_decay=params["eps_decay"])
+            scores, params_used, episodes_taken = train(eps_decay=params["eps_decay"])
             episodes.append(episodes_taken)
             params_total.append(params_used)
         min_episode_idx: int = int(np.argmin(episodes))
@@ -127,4 +127,4 @@ if __name__ == "__main__":
                 batch_size=args.batch_size if args.batch_size is not None else defaults["batch_size"],
                 update_every=args.update_every if args.update_every is not None else defaults["update_every"],
             )
-        scores, params_used, episodes_taken = dqn(eps_decay=args.eps_decay if args.eps_decay is not None else defaults["eps_decay"])
+        scores, params_used, episodes_taken = train(eps_decay=args.eps_decay if args.eps_decay is not None else defaults["eps_decay"])
