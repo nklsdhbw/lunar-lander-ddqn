@@ -4,7 +4,7 @@ import numpy as np
 from agent import Agent
 import time
 
-def play(agent, env, device, n_episodes=5):
+def play(agent, env, n_episodes=5):
     for i_episode in range(1, n_episodes + 1):
         state, _ = env.reset()
         done = False
@@ -29,4 +29,4 @@ if __name__ == "__main__":
     
     agent.DQN_policy.load_state_dict(torch.load('checkpoint.pth', map_location=device, weights_only=True))
     
-    play(agent, env, device)
+    play(agent, env)

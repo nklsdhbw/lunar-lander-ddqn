@@ -14,6 +14,7 @@ agent = Agent(state_size, action_size, device=device, seed=0, gamma=0.99, tau=1e
 
 def dqn(n_episodes=2000, max_t=1000, eps_start=1.0, eps_end=0.01, eps_decay=0.995):
     scores = []
+    params = []
     scores_window = deque(maxlen=100)
     eps = eps_start
     for i_episode in range(1, n_episodes + 1):
