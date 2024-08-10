@@ -30,7 +30,7 @@ project-root/
 │
 ├── play.py
 │
-├── checkpoint.pth
+├── dqn_policy.pth
 │
 └── requirements.txt
 
@@ -62,17 +62,17 @@ project-root/
 
 4.  **train.py**:
 
-- Handles the training loop, where the Double DQN agent is trained over multiple episodes to learn the optimal policy for the LunarLander-v2 environment. The trained model is saved as `checkpoint.pth`.
+- Handles the training loop, where the Double DQN agent is trained over multiple episodes to learn the optimal policy for the LunarLander-v2 environment. The trained model is saved as `dqn_policy.pth`.
 
   
 
 5.  **play.py**:
 
-- Loads the trained model from `checkpoint.pth` and runs it to evaluate its performance in the LunarLander-v2 environment.
+- Loads the trained model from `dqn_policy.pth` and runs it to evaluate its performance in the LunarLander-v2 environment.
 
   
 
-6.  **checkpoint.pth**:
+6.  **dqn_policy.pth**:
 
 - A saved checkpoint file containing the trained model's weights, allowing the agent to be loaded and evaluated without retraining.
 
@@ -174,7 +174,7 @@ python  train.py
 
   
 
-This will train the agent and save the best model weights in `checkpoint.pth`.
+This will train the agent and save the best model weights in `dqn_policy.pth`.
 
   
 
@@ -192,7 +192,7 @@ python  play.py
 
   
 
-This will load the model from `checkpoint.pth` and run the agent in the LunarLander-v2 environment.
+This will load the model from `dqn_policy.pth` and run the agent in the LunarLander-v2 environment.
 
   
 
