@@ -43,7 +43,7 @@ def train(
         print(f"\rEpisode {i_episode}\tAverage Score: {np.mean(scores_window):.2f}", end="")
         if i_episode % 100 == 0:
             print(f"\rEpisode {i_episode}\tAverage Score: {np.mean(scores_window):.2f}")
-        if np.mean(scores_window) >= -150.0:
+        if np.mean(scores_window) >= 250.0:
             print(f"\nEnvironment solved in {i_episode - 100} episodes!\tAverage Score: {np.mean(scores_window):.2f}")
             torch.save(agent.DQN_policy.state_dict(), "dqn_policy.pth")
             with open("model_hyperparams.txt", "w") as f:
