@@ -99,9 +99,12 @@ if __name__ == "__main__":
         }
 
         grid: ParameterGrid = ParameterGrid(param_grid)
+        print("Running grid search...")
+        print(f"Total number of combinations: {len(grid)}")
         episodes: List[int] = []
         params_total: List[Dict[str, Any]] = []
-        for params in list(grid)[:2]:
+        for params in list(grid):
+            print(f"Running grid search with parameters: {params}")
             agent = Agent(
                 state_size=state_size,
                 action_size=action_size,
