@@ -52,11 +52,23 @@ def train(
                 f.write(f"update_every: {agent.update_every}\n")
                 f.write(f"tau: {agent.tau}\n")
                 f.write(f"eps_decay: {eps_decay}\n")
+            
+            # Plot scores per episode
+            plt.plot(np.arange(0, len(scores[:len(scores)-100])), scores[:len(scores)-100])
+            plt.ylabel("Score")
+            plt.xlabel("Episode #")
+            plt.title("Score per Episode")
+            plt.savefig("scores.svg", format="svg")
+            plt.close()
+
+            # plot epsilon decay
+            plt.plot(np.arange(0, len(scores[:len(scores)-100])), [eps_start * (eps_decay ** i) for i in range(len(scores[:len(scores)-100]))])
+            plt.ylabel("Epsilon")
+            plt.xlabel("Episode #")
+            plt.title("Epsilon Decay")
+            plt.savefig("epsilon_decay.svg", format="svg")
             break
-        plt.plot(np.arange(1, len(scores) + 1), scores)
-        plt.ylabel("Score")
-        plt.xlabel("Episode #")
-        plt.savefig("scores.svg", format="svg")
+    
     if np.mean(scores_window) < 250.0:    
         print(f"\nEnvironment not solved in {i_episode} episodes.\tAverage Score: {np.mean(scores_window):.2f}")
         print("Model will not be saved.")

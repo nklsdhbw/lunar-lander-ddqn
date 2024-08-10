@@ -1,0 +1,5 @@
+gamma: 0.99
+batch_size: 64
+update_every: 4
+tau: 0.001
+eps_decay: 0.995
