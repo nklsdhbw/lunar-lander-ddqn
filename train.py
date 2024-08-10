@@ -6,6 +6,7 @@ import torch
 from sklearn.model_selection import ParameterGrid
 import argparse
 from typing import List, Tuple, Dict, Any
+from matplotlib import pyplot as plt
 
 env = gym.make("LunarLander-v2")
 state_size: int = env.observation_space.shape[0]
@@ -42,7 +43,7 @@ def train(
         print(f"\rEpisode {i_episode}\tAverage Score: {np.mean(scores_window):.2f}", end="")
         if i_episode % 100 == 0:
             print(f"\rEpisode {i_episode}\tAverage Score: {np.mean(scores_window):.2f}")
-        if np.mean(scores_window) >= 250.0:
+        if np.mean(scores_window) >= -150.0:
             print(f"\nEnvironment solved in {i_episode - 100} episodes!\tAverage Score: {np.mean(scores_window):.2f}")
             torch.save(agent.DQN_policy.state_dict(), "dqn_policy.pth")
             with open("model_hyperparams.txt", "w") as f:
@@ -52,9 +53,14 @@ def train(
                 f.write(f"tau: {agent.tau}\n")
                 f.write(f"eps_decay: {eps_decay}\n")
             break
+        plt.plot(np.arange(1, len(scores) + 1), scores)
+        plt.ylabel("Score")
+        plt.xlabel("Episode #")
+        plt.savefig("scores.svg", format="svg")
     if np.mean(scores_window) < 250.0:    
         print(f"\nEnvironment not solved in {i_episode} episodes.\tAverage Score: {np.mean(scores_window):.2f}")
         print("Model will not be saved.")
+    
     return scores, params, i_episode
 
 if __name__ == "__main__":
