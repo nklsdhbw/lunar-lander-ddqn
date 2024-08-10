@@ -88,8 +88,26 @@ if __name__ == "__main__":
     parser.add_argument("--eps_decay", type=float, help="Epsilon decay rate.")
 
     args: argparse.Namespace = parser.parse_args()
+    warnings: List[str] = []
+    YELLOW: str = "\033[93m"
+    RESET: str = "\033[0m"
+    defaults: Dict[str, Any] = {
+    "gamma": 0.99,
+    "batch_size": 64,
+    "update_every": 4,
+    "tau": 1e-3,
+    "eps_decay": 0.995
+    }  
 
     if args.grid_search:
+        for param, default_value in defaults.items():
+            if getattr(args, param) is not None:
+                warnings.append(f"{param}")
+        
+        print(f"{YELLOW}WARNING: The following parameters were set but will be ignored due to grid search:{RESET}")
+        for warning in warnings:
+            print(f"{YELLOW}{warning}{RESET}")
+        
         param_grid: Dict[str, List[Any]] = {
             "gamma": [0.999, 0.99, 0.95],
             "batch_size": [64, 128],
@@ -122,27 +140,14 @@ if __name__ == "__main__":
         print(f"Best parameters: {params_total[min_episode_idx]}\tEpisodes taken: {episodes[min_episode_idx]}")
 
     else:
-        yellow: str = "\033[93m"
-        reset: str = "\033[0m"
-
-        defaults: Dict[str, Any] = {
-            "gamma": 0.99,
-            "batch_size": 64,
-            "update_every": 4,
-            "tau": 1e-3,
-            "eps_decay": 0.995
-        }
-        
-        warnings: List[str] = []
-
         for param, default_value in defaults.items():
             if getattr(args, param) is None:
                 warnings.append(f"{param} not set, using default value: {default_value}")
 
         if warnings:
-            print(f"{yellow}WARNING: The following parameters were not set and will use default values:{reset}")
+            print(f"{YELLOW}WARNING: The following parameters were not set and will use default values:{RESET}")
             for warning in warnings:
-                print(f"{yellow}{warning}{reset}")
+                print(f"{YELLOW}{warning}{RESET}")
 
         agent = Agent(
                 state_size=state_size,
