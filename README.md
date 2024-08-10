@@ -130,6 +130,7 @@ If the hyperparameters are not set, the default values will be used.
 * `--update_every`: Specify how often to update the network (default: 4).
 * `--tau`: Specify the soft update parameter (default: 1e-3).
 * `--eps_decay`: Specify the epsilon decay rate (default: 0.995).
+* `--n_episodes`: Specify the number of episodes the agent will be trained on (default: 2000)
 
 **Note:** You'll also be warned about all hyperparameters that are not set
 

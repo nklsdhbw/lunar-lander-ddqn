@@ -86,6 +86,7 @@ if __name__ == "__main__":
     parser.add_argument("--update_every", type=int, help="Update frequency.")
     parser.add_argument("--tau", type=float, help="Soft update parameter.")
     parser.add_argument("--eps_decay", type=float, help="Epsilon decay rate.")
+    parser.add_argument("--n_episodes", type=int, help="Number of episodes to run the agent for.")
 
     args: argparse.Namespace = parser.parse_args()
     warnings: List[str] = []
@@ -96,7 +97,8 @@ if __name__ == "__main__":
     "batch_size": 64,
     "update_every": 4,
     "tau": 1e-3,
-    "eps_decay": 0.995
+    "eps_decay": 0.995,
+    "n_episodes": 2000
     }  
 
     if args.grid_search:
@@ -113,7 +115,8 @@ if __name__ == "__main__":
             "batch_size": [64, 128],
             "update_every": [4, 2],
             "tau": [1e-3, 1e-2],
-            "eps_decay": [0.995, 0.99]
+            "eps_decay": [0.995, 0.99],
+            "n_episodes": [1000, 2000]
         }
 
         grid: ParameterGrid = ParameterGrid(param_grid)
@@ -133,7 +136,7 @@ if __name__ == "__main__":
                 batch_size=params["batch_size"],
                 update_every=params["update_every"],
             )
-            scores, params_used, episodes_taken = train(eps_decay=params["eps_decay"])
+            scores, params_used, episodes_taken = train(n_episodes=params["n_episodes"],eps_decay=params["eps_decay"])
             episodes.append(episodes_taken)
             params_total.append(params_used)
         min_episode_idx: int = int(np.argmin(episodes))
@@ -159,4 +162,4 @@ if __name__ == "__main__":
                 batch_size=args.batch_size if args.batch_size is not None else defaults["batch_size"],
                 update_every=args.update_every if args.update_every is not None else defaults["update_every"],
             )
-        scores, params_used, episodes_taken = train(eps_decay=args.eps_decay if args.eps_decay is not None else defaults["eps_decay"])
+        scores, params_used, episodes_taken = train(n_episodes=args.n_episodes if args.n_episodes is not None else defaults["n_episodes"],eps_decay=args.eps_decay if args.eps_decay is not None else defaults["eps_decay"])
