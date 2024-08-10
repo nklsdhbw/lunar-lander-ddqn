@@ -1,2 +1,3 @@
 gymnasium[box2d]
 torchvision
+scikit-learn
