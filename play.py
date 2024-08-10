@@ -3,7 +3,6 @@ import gymnasium as gym
 import numpy as np
 from agent import Agent
 import time
-from typing import Any
 import os
 
 def play(agent: Agent, env: gym.Env, n_episodes: int = 5) -> None:
