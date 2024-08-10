@@ -44,7 +44,7 @@ def train(
             print(f"\rEpisode {i_episode}\tAverage Score: {np.mean(scores_window):.2f}")
         if np.mean(scores_window) >= 250.0:
             print(f"\nEnvironment solved in {i_episode - 100} episodes!\tAverage Score: {np.mean(scores_window):.2f}")
-            torch.save(agent.DQN_policy.state_dict(), "checkpoint.pth")
+            torch.save(agent.DQN_policy.state_dict(), "dqn_policy.pth")
             with open("model_hyperparams.txt", "w") as f:
                 f.write(f"gamma: {agent.gamma}\n")
                 f.write(f"batch_size: {agent.batch_size}\n")

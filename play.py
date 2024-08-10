@@ -4,6 +4,7 @@ import numpy as np
 from agent import Agent
 import time
 from typing import Any
+import os
 
 def play(agent: Agent, env: gym.Env, n_episodes: int = 5) -> None:
     for i_episode in range(1, n_episodes + 1):
@@ -21,6 +22,9 @@ def play(agent: Agent, env: gym.Env, n_episodes: int = 5) -> None:
     env.close()
 
 if __name__ == "__main__":
+    if not os.path.exists('dqn_policy.pth'):
+        raise FileNotFoundError("Model file not found. Please run 'python train.py' first as shown in the README.md file.")
+        
     env: gym.Env = gym.make('LunarLander-v2', render_mode="human")
     state_size: int = env.observation_space.shape[0]
     action_size: int = env.action_space.n
@@ -28,6 +32,6 @@ if __name__ == "__main__":
     
     agent: Agent = Agent(state_size, action_size, device=device, seed=0)
     
-    agent.DQN_policy.load_state_dict(torch.load('checkpoint.pth', map_location=device, weights_only=True))
+    agent.DQN_policy.load_state_dict(torch.load('dqn_policy.pth', map_location=device, weights_only=True))
     
     play(agent, env)
